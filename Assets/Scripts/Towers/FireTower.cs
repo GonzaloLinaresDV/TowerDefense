@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ElectricTower : MonoBehaviour
+public class FireTower : MonoBehaviour, ITowers
 {
+    GameManager gameManager;
     public int FOV;
     public int level;
     public GameObject bullet;
-    public Transform spawnPoint, end;
+    public Transform spawnPoint,end;
     public List<Mesh> towerAssets;
     MeshFilter myMesh;
     Material myMaterial;
@@ -16,21 +17,22 @@ public class ElectricTower : MonoBehaviour
 
     private void Start()
     {
-        myMesh = GetComponent<MeshFilter>();
-        myMaterial = GetComponent<MeshRenderer>().materials[0];
-        myMaterial.color = Color.yellow;
+        myMesh= GetComponent<MeshFilter>();
+        myMaterial= GetComponent<MeshRenderer>().materials[0];
+        myMaterial.color= Color.red;
+        gameManager = GameManager.Instance;
+
+        allEnemies = gameManager.allEnemy;
+        
     }
     public void Attack()
     {
-        if (IsOnFOV(CanAttackEnemies()))
-        {
-            InstantiateBullet();
-        }
+        InstantiateBullet();        
     }
     public void InstantiateBullet()
     {
-        var go = Instantiate(bullet, spawnPoint.transform.position, Quaternion.identity);
-        go.GetComponent<Bullet>().SetBullet(GetCloserToExit().First().transform, 2);
+        var go=Instantiate(bullet, spawnPoint.transform.position,Quaternion.identity);
+        go.GetComponent<Bullet>().SetBullet(CanAttackEnemies().First().transform,2);
         Debug.Log("ATAQUE A ");
     }
     private void Update()
@@ -39,8 +41,10 @@ public class ElectricTower : MonoBehaviour
         {
             Upgrade();
         }
-        CanAttackEnemies();
-        Attack();
+        if (IsOnFOV(CanAttackEnemies()))
+        {
+            Attack();
+        }
     }
     public void Upgrade()
     {
@@ -58,24 +62,13 @@ public class ElectricTower : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
-    public IEnumerable<Enemy> CanAttackEnemies()
-    {
-        var attacableEnemies = allEnemies.Where(x => x.type != Enemy.Type.fire);
+    public IEnumerable<Enemy> CanAttackEnemies() {       
+        var attacableEnemies= allEnemies.Where(x => x.type == Enemy.Type.ice);
         Debug.Log(attacableEnemies);
         return attacableEnemies;
     }
-    public List<Enemy> GetCloserToExit()
-    {
-        var closer = allEnemies.OrderBy(x => Vector3.Distance(x.transform.position, end.position));
-        return closer.ToList();
-    }
 
-
-
-
-
-
-    public bool IsOnFOV(IEnumerable<Enemy> enemyAttacable)
+    public bool IsOnFOV(IEnumerable <Enemy> enemyAttacable)
     {
         foreach (Enemy enemy in enemyAttacable)
         {

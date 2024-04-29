@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour , IDamageable
 {
     public int speed,life;
     public GameManager gameManager;
@@ -59,8 +59,17 @@ public class Enemy : MonoBehaviour
         }
         else if (other.tag == "Bullet")
         {
-            Destroy(gameObject);
             Destroy(other.gameObject);
+        }
+    }
+
+    public void TakeDamage(int dmg)
+    {
+        life -= dmg;
+        if (life <= 0)
+        {
+            gameManager.allEnemy.Remove(this);
+            Destroy(this.gameObject);
         }
     }
 }

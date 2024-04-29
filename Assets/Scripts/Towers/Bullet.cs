@@ -5,6 +5,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     Transform target;
+    Vector3 myTargetPos;
+    bool enterCorrutine;
     int dmg;
     public enum Type
     {
@@ -39,7 +41,30 @@ public class Bullet : MonoBehaviour
     {
         if (target! != null)
         {
+            myTargetPos= target.position;
             transform.position = Vector3.MoveTowards(transform.position, target.position, 5f * Time.deltaTime);
+        }
+        else
+        {
+            if (!enterCorrutine)
+            {
+                StartCoroutine(DestroyBullet());
+            }
+            transform.position = Vector3.MoveTowards(transform.position, myTargetPos.normalized, 5F * Time.deltaTime);
+        }
+    }
+
+    IEnumerator DestroyBullet()
+    {
+        enterCorrutine = true;
+        yield return new WaitForSeconds(.5f);
+        Destroy(gameObject);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<IDamageable>() != null) {
+            
+            other.GetComponent<Enemy>().TakeDamage(dmg);
         }
     }
 

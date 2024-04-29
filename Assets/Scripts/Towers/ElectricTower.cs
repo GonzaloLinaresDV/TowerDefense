@@ -1,15 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class FireTower : MonoBehaviour, ITowers
+public class ElectricTower : MonoBehaviour
 {
     public int FOV;
     public int level;
     public GameObject bullet;
-    public Transform spawnPoint,end;
+    public Transform spawnPoint, end;
     public List<Mesh> towerAssets;
     MeshFilter myMesh;
     Material myMaterial;
@@ -17,9 +16,9 @@ public class FireTower : MonoBehaviour, ITowers
 
     private void Start()
     {
-        myMesh= GetComponent<MeshFilter>();
-        myMaterial= GetComponent<MeshRenderer>().materials[0];
-        myMaterial.color= Color.red;
+        myMesh = GetComponent<MeshFilter>();
+        myMaterial = GetComponent<MeshRenderer>().materials[0];
+        myMaterial.color = Color.yellow;
     }
     public void Attack()
     {
@@ -30,8 +29,8 @@ public class FireTower : MonoBehaviour, ITowers
     }
     public void InstantiateBullet()
     {
-        var go=Instantiate(bullet, spawnPoint.transform.position,Quaternion.identity);
-        go.GetComponent<Bullet>().SetBullet(GetCloserToExit().First().transform,2);
+        var go = Instantiate(bullet, spawnPoint.transform.position, Quaternion.identity);
+        go.GetComponent<Bullet>().SetBullet(CanAttackEnemies().First().transform,2);
         Debug.Log("ATAQUE A ");
     }
     private void Update()
@@ -59,14 +58,15 @@ public class FireTower : MonoBehaviour, ITowers
     {
         Destroy(this.gameObject);
     }
-    public IEnumerable<Enemy> CanAttackEnemies() {       
-        var attacableEnemies= allEnemies.Where(x => x.type != Enemy.Type.earth);
+    public IEnumerable<Enemy> CanAttackEnemies()
+    {
+        var attacableEnemies = allEnemies.Where(x => x.type != Enemy.Type.fire);
         Debug.Log(attacableEnemies);
         return attacableEnemies;
     }
     public List<Enemy> GetCloserToExit()
     {
-        var closer=allEnemies.OrderBy(x=>Vector3.Distance(x.transform.position,end.position));
+        var closer = allEnemies.OrderBy(x => Vector3.Distance(x.transform.position, end.position));
         return closer.ToList();
     }
 
@@ -75,7 +75,7 @@ public class FireTower : MonoBehaviour, ITowers
 
 
 
-    public bool IsOnFOV(IEnumerable <Enemy> enemyAttacable)
+    public bool IsOnFOV(IEnumerable<Enemy> enemyAttacable)
     {
         foreach (Enemy enemy in enemyAttacable)
         {

@@ -23,7 +23,7 @@ public class SpawnTurret : MonoBehaviour
     {
         if (myBox.enabled)
         {
-            Instantiate(Turrets[Random.RandomRange(0, Turrets.Count)], transform.position, Quaternion.identity);
+            Instantiate(Turrets[1], transform.position, Quaternion.identity);
             myBox.enabled = false;
         }
     }
