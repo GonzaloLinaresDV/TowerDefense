@@ -5,8 +5,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public int speed,life;
-    public Transform start,end;
     public GameManager gameManager;
+    public EnemyPathManager pathManager;
+    int idx;
     public enum Type
     {
         fire,
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        pathManager=FindObjectOfType<EnemyPathManager>();
         gameManager= FindObjectOfType<GameManager>();
         var color = gameObject.GetComponent<MeshRenderer>();
         switch (type)
@@ -31,15 +33,23 @@ public class Enemy : MonoBehaviour
                 color.material.color = Color.yellow;
                 break;
         }
-        start = gameManager.start;
-        end = gameManager.end;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position=Vector3.MoveTowards(transform.position,end.position,speed*Time.deltaTime);
+        GoTo();
     }
+
+    void GoTo()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, pathManager.path[idx].position, speed * Time.deltaTime);
+        var distance= Vector3.Distance(transform.position, pathManager.path[idx].position);
+        if(distance <= 0.1f) {
+            idx++;
+        }
+    }
+    
 
     private void OnTriggerEnter(Collider other)
     {

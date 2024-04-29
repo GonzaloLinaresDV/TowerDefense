@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            var go=Instantiate(enemyList[Random.RandomRange(0,enemyList.Count-1)],start.transform.position,Quaternion.identity);
+            var go=Instantiate(enemyList[Random.RandomRange(0,enemyList.Count)],start.transform.position,Quaternion.identity);
             foreach(FireTower x in fireTowers) {
-                x.allEnemies.Add(go);
+                allEnemy.Add(go);
             }
             yield return new WaitForSeconds(2f);
             
