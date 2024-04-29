@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{721AA659-AC5B-EB5F-96F5-BB248A0DD5FB}</ProjectGuid>
+    <ProjectGuid>{17BB7AF0-A1AD-DCE4-09CE-1D3A3635465B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -57,12 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\IDamageable.cs" />
+    <Compile Include="Assets\Bullet.cs" />
     <Compile Include="Assets\Towers.cs" />
     <Compile Include="Assets\SpawnManager.cs" />
     <Compile Include="Assets\FireTower.cs" />
     <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\Enemy.cs" />
-    <Compile Include="Assets\Bullet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

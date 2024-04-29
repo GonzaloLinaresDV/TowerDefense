@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public List<Enemy> enemyList;
     public Transform start, end;
     public List<FireTower> fireTowers;
+    public List<Enemy> allEnemy;
     // Start is called before the first frame update
     void Start()
     {
