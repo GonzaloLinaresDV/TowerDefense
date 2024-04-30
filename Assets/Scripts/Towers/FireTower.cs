@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,17 @@ public class FireTower : MonoBehaviour, ITowers
     public GameObject bullet, nextLevel;
     public Transform spawnPoint,end;
     public int RPS;
+    public FocusType focusType;
     public List<Enemy> allEnemies;
+    
+    public enum FocusType
+    {
+        first,
+        last,
+        moreHealth,
+        LessHealth,
 
+    }
     private void Start()
     {
 
@@ -75,21 +85,29 @@ public class FireTower : MonoBehaviour, ITowers
     {
         while (true)
         {
-            if (IsOnFOV(CanAttackEnemies()))
+            if (IsOnFOV(CanAttackEnemies())&& focusType== FocusType.first)
             {
                 InstantiateBullet(CanAttackEnemies().First().transform);
                 yield return new WaitForSeconds(RPS);
             }
-            else if (IsOnFOV(CanAttackEnemies().Skip(1)))
+            else if (IsOnFOV(CanAttackEnemies()) && focusType== FocusType.last)
             {
-                InstantiateBullet(CanAttackEnemies().Skip(1).First().transform);
+                InstantiateBullet(CanAttackEnemies().Last().transform);
                 yield return new WaitForSeconds(RPS);
             }
-            else if (IsOnFOV(CanAttackEnemies().Skip(2)))
+            else if (IsOnFOV(CanAttackEnemies()) && focusType == FocusType.moreHealth)
             {
-                InstantiateBullet(CanAttackEnemies().Skip(2).First().transform);
+                var orderByHeatlh = CanAttackEnemies().OrderByDescending(x => x.life);
+                InstantiateBullet(orderByHeatlh.First().transform);
                 yield return new WaitForSeconds(RPS);
             }
+            else if (IsOnFOV(CanAttackEnemies()) && focusType == FocusType.LessHealth)
+            {
+                var orderByHeatlh=CanAttackEnemies().OrderBy(x=>x.life);
+                InstantiateBullet(orderByHeatlh.First().transform);
+                yield return new WaitForSeconds(RPS);
+            }
+
             yield return null;
         }
     }

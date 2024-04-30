@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour , IDamageable
 {
+    public Camera camera;
     public int speed,life;
+    public TextMeshPro myHealtTXT;
     public GameManager gameManager;
     public EnemyPathManager pathManager;
     int idx;
@@ -20,11 +23,15 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         pathManager=FindObjectOfType<EnemyPathManager>();
         gameManager= FindObjectOfType<GameManager>();
+        camera = FindObjectOfType<Camera>();
+        life = Random.Range(1, 5);
+        myHealtTXT.text=life.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
+        transform.LookAt(camera.transform.position);
         GoTo();
     }
 
@@ -60,5 +67,6 @@ public class Enemy : MonoBehaviour , IDamageable
             gameManager.allEnemy.Remove(this);
             Destroy(this.gameObject);
         }
+        myHealtTXT.text=life.ToString();
     }
 }
