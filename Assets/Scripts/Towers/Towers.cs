@@ -5,7 +5,6 @@ using UnityEngine;
 public interface ITowers
 {
     
-    void Attack();
     void Upgrade();
     void Destroy();
 }

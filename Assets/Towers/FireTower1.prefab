@@ -126,5 +126,5 @@ MonoBehaviour:
   towerAssets:
   - {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
   - {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
-  myMesh: {fileID: 0}
+  RPS: 2
   allEnemies: []

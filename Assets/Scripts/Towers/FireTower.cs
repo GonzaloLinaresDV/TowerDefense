@@ -1,38 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class FireTower : MonoBehaviour, ITowers
 {
     GameManager gameManager;
     public int FOV;
     public int level;
-    public GameObject bullet;
+    public GameObject bullet, nextLevel;
     public Transform spawnPoint,end;
-    public List<Mesh> towerAssets;
-    MeshFilter myMesh;
-    Material myMaterial;
+    public int RPS;
     public List<Enemy> allEnemies;
 
     private void Start()
     {
-        myMesh= GetComponent<MeshFilter>();
-        myMaterial= GetComponent<MeshRenderer>().materials[0];
-        myMaterial.color= Color.red;
+
         gameManager = GameManager.Instance;
 
         allEnemies = gameManager.allEnemy;
-        
+        StartCoroutine(ShootingCorrutine());
     }
-    public void Attack()
-    {
-        InstantiateBullet();        
-    }
-    public void InstantiateBullet()
+    public void InstantiateBullet(Transform target)
     {
         var go=Instantiate(bullet, spawnPoint.transform.position,Quaternion.identity);
-        go.GetComponent<Bullet>().SetBullet(CanAttackEnemies().First().transform,2);
+        go.GetComponent<Bullet>().SetBullet(target,2);
         Debug.Log("ATAQUE A ");
     }
     private void Update()
@@ -41,22 +35,22 @@ public class FireTower : MonoBehaviour, ITowers
         {
             Upgrade();
         }
-        if (IsOnFOV(CanAttackEnemies()))
-        {
-            Attack();
-        }
     }
     public void Upgrade()
     {
         if (level + 1 != 4)
         {
             level++;
-            ChangeTowerAsset(level);
+            ChangeTowerAsset();
         }
     }
-    void ChangeTowerAsset(int lvl)
+    void ChangeTowerAsset()
     {
-        myMesh.mesh = towerAssets[lvl];
+        if (nextLevel != null)
+        {
+            Destroy(gameObject);
+            Instantiate(nextLevel, transform.position, Quaternion.identity);
+        }
     }
     public void Destroy()
     {
@@ -76,5 +70,27 @@ public class FireTower : MonoBehaviour, ITowers
         }
         return false;
 
+    }
+    IEnumerator ShootingCorrutine()
+    {
+        while (true)
+        {
+            if (IsOnFOV(CanAttackEnemies()))
+            {
+                InstantiateBullet(CanAttackEnemies().First().transform);
+                yield return new WaitForSeconds(RPS);
+            }
+            else if (IsOnFOV(CanAttackEnemies().Skip(1)))
+            {
+                InstantiateBullet(CanAttackEnemies().Skip(1).First().transform);
+                yield return new WaitForSeconds(RPS);
+            }
+            else if (IsOnFOV(CanAttackEnemies().Skip(2)))
+            {
+                InstantiateBullet(CanAttackEnemies().Skip(2).First().transform);
+                yield return new WaitForSeconds(RPS);
+            }
+            yield return null;
+        }
     }
 }

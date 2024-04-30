@@ -314,7 +314,7 @@ Transform:
   m_GameObject: {fileID: 541372932}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -614,7 +614,7 @@ Transform:
   m_GameObject: {fileID: 845600038}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.04, z: 0}
+  m_LocalPosition: {x: 0, y: -0.576, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -909,9 +909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Turrets:
-  - {fileID: 1440727635116071506, guid: 0c7f35bc89ac31e47b7efa7a478e17c4, type: 3}
-  - {fileID: 1440727635116071506, guid: 91bf9c7c749a7da4b89dbe48c223fb05, type: 3}
-  - {fileID: 1440727635116071506, guid: dea19b1f3e5119145926d3593f9e9a75, type: 3}
+  - {fileID: 187918, guid: 77a599bd67f72e24999e1d5d60f433d0, type: 3}
 --- !u!65 &1256163286
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -991,14 +989,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256163284}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.97, y: 0.57, z: -3.54}
+  m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 9.97, y: 0.095, z: -3.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 845600039}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1348858943
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,13 +1091,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyList:
-  - {fileID: 7684654311339213483, guid: f9a7a2ed4183ce841bd1587dbc9f54fb, type: 3}
-  - {fileID: 8990077906093551030, guid: f6998d87fd170ef4189215f89b59f265, type: 3}
-  - {fileID: 1577208268548352528, guid: fed309cd9e6613842890df0f595fa7e2, type: 3}
+  - {fileID: 5963748833692834573, guid: 8e42ecb6aec5b634d999394a6242d4ba, type: 3}
   start: {fileID: 1953945954}
   end: {fileID: 564778436}
   fireTowers:
-  - {fileID: 0}
+  - {fileID: 5521966891002352195, guid: 77a599bd67f72e24999e1d5d60f433d0, type: 3}
   allEnemy: []
 --- !u!4 &1474918375
 Transform:

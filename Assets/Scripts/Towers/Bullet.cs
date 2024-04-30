@@ -50,14 +50,13 @@ public class Bullet : MonoBehaviour
             {
                 StartCoroutine(DestroyBullet());
             }
-            transform.position = Vector3.MoveTowards(transform.position, myTargetPos.normalized, 5F * Time.deltaTime);
         }
     }
 
     IEnumerator DestroyBullet()
     {
         enterCorrutine = true;
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.1f);
         Destroy(gameObject);
     }
     private void OnTriggerEnter(Collider other)
@@ -65,6 +64,7 @@ public class Bullet : MonoBehaviour
         if (other.GetComponent<IDamageable>() != null) {
             
             other.GetComponent<Enemy>().TakeDamage(dmg);
+            Destroy(gameObject);
         }
     }
 

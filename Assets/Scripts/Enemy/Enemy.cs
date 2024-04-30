@@ -20,19 +20,6 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         pathManager=FindObjectOfType<EnemyPathManager>();
         gameManager= FindObjectOfType<GameManager>();
-        var color = gameObject.GetComponent<MeshRenderer>();
-        switch (type)
-        {
-            case Type.fire:
-                color.material.color = Color.red;
-                break; 
-            case Type.ice:
-                color.material.color= Color.blue;
-                break; 
-            case Type.earth:
-                color.material.color = Color.yellow;
-                break;
-        }
     }
 
     // Update is called once per frame
@@ -45,6 +32,7 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         transform.position = Vector3.MoveTowards(transform.position, pathManager.path[idx].position, speed * Time.deltaTime);
         var distance= Vector3.Distance(transform.position, pathManager.path[idx].position);
+        transform.LookAt(pathManager.path[idx].position);
         if(distance <= 0.1f) {
             idx++;
         }
@@ -55,6 +43,7 @@ public class Enemy : MonoBehaviour , IDamageable
     {
         if (other.tag == "End")
         {
+            gameManager.allEnemy.Remove(this);
             Destroy(gameObject);
         }
         else if (other.tag == "Bullet")

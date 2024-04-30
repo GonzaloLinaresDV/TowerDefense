@@ -23,7 +23,7 @@ public class SpawnTurret : MonoBehaviour
     {
         if (myBox.enabled)
         {
-            Instantiate(Turrets[1], transform.position, Quaternion.identity);
+            Instantiate(Turrets[0], transform.position, transform.rotation);
             myBox.enabled = false;
         }
     }
