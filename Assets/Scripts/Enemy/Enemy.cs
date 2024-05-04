@@ -6,11 +6,11 @@ using UnityEngine;
 public class Enemy : MonoBehaviour , IDamageable
 {
     public Camera camera;
-    public int speed,life;
+    public int speed,life, idx;
     public TextMeshPro myHealtTXT;
     public GameManager gameManager;
     public EnemyPathManager pathManager;
-    int idx;
+    public Transform myTransform;
     public enum Type
     {
         fire,
@@ -26,6 +26,7 @@ public class Enemy : MonoBehaviour , IDamageable
         camera = FindObjectOfType<Camera>();
         life = Random.Range(1, 5);
         myHealtTXT.text=life.ToString();
+        myTransform = transform;
     }
 
     // Update is called once per frame

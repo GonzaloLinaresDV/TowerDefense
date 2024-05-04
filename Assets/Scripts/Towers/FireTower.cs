@@ -85,26 +85,27 @@ public class FireTower : MonoBehaviour, ITowers
     {
         while (true)
         {
-            if (IsOnFOV(CanAttackEnemies())&& focusType== FocusType.first)
+            var attacacableList = CanAttackEnemies();
+            if (IsOnFOV(attacacableList)&& focusType == FocusType.first)
             {
-                InstantiateBullet(CanAttackEnemies().First().transform);
+                InstantiateBullet(attacacableList.First().transform);
                 yield return new WaitForSeconds(RPS);
             }
-            else if (IsOnFOV(CanAttackEnemies()) && focusType== FocusType.last)
+            else if (IsOnFOV(attacacableList) && focusType == FocusType.last)
             {
-                InstantiateBullet(CanAttackEnemies().Last().transform);
+                InstantiateBullet(attacacableList.Last().transform);
                 yield return new WaitForSeconds(RPS);
             }
-            else if (IsOnFOV(CanAttackEnemies()) && focusType == FocusType.moreHealth)
+            else if (IsOnFOV(attacacableList) && focusType == FocusType.moreHealth)
             {
-                var orderByHeatlh = CanAttackEnemies().OrderByDescending(x => x.life);
-                InstantiateBullet(orderByHeatlh.First().transform);
+                var orderByHeatlh = attacacableList.OrderByDescending(x => x.life).ThenByDescending(x => x.idx);
+                InstantiateBullet(orderByHeatlh.Select(x => x.myTransform).First());
                 yield return new WaitForSeconds(RPS);
             }
-            else if (IsOnFOV(CanAttackEnemies()) && focusType == FocusType.LessHealth)
+            else if (IsOnFOV(attacacableList) && focusType == FocusType.LessHealth)
             {
-                var orderByHeatlh=CanAttackEnemies().OrderBy(x=>x.life);
-                InstantiateBullet(orderByHeatlh.First().transform);
+                var orderByHeatlh=attacacableList.OrderBy(x => x.life).ThenBy(x => x.idx);
+                InstantiateBullet(orderByHeatlh.Select(x => x.myTransform).First());
                 yield return new WaitForSeconds(RPS);
             }
 
